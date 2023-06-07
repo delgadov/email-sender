@@ -1,12 +1,17 @@
 package com.emailsender.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "TB_EMAIL")
 public class EmailModel {
@@ -22,4 +27,17 @@ public class EmailModel {
     private String body;
     private LocalDateTime sendEmailDate;
     private StatusEmail statusEmail;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        EmailModel that = (EmailModel) o;
+        return getEmailId() != null && Objects.equals(getEmailId(), that.getEmailId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
