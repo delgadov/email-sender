@@ -27,17 +27,15 @@ public class EmailService {
     @Transactional
     public EmailModel sendEmail(EmailModel emailModel) {
         emailModel.setSendEmailDate(LocalDateTime.now(ZoneId.of("UTC")));
+
         try {
             SimpleMailMessage simpleMailMessage = EmailMapper.INSTANCE.modelToSimpleMailMessage(emailModel);
-
             mailSender.send(simpleMailMessage);
 
             emailModel.setStatusEmail(StatusEmail.SENT);
-        }catch (MailSendException e){
+        } catch (MailSendException e) {
             emailModel.setStatusEmail(StatusEmail.ERROR);
         }
-        finally {
-            return emailRepository.save(emailModel);
-        }
+        return emailRepository.save(emailModel);
     }
 }
