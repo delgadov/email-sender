@@ -8,7 +8,6 @@ import com.emailsender.service.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +27,6 @@ public class EmailController {
     public ResponseEntity<EmailResponseDto> sendEmail(@RequestBody @Valid EmailRequestDto emailRequestDto) {
         EmailModel emailModel = EmailMapper.INSTANCE.requestToModel(emailRequestDto);
         EmailModel sendEmailModel = emailService.sendEmail(emailModel);
-        System.out.println(emailModel);
-        System.out.println(sendEmailModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(EmailMapper.INSTANCE.modelToResponse(sendEmailModel));
     }
 }
